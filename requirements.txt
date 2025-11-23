@@ -1,0 +1,6 @@
+Flask
+pyodbc
+pandas
+openpyxl
+gunicorn
+woocommerce
