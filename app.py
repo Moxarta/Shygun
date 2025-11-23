@@ -98,31 +98,13 @@ HTML_TEMPLATE = """
 </html>
 """
 @app.route('/')
-def index_page():  # قبلاً index بود
-    try:
-        conn = pyodbc.connect(conn_str)
-        cursor = conn.cursor()
-        cursor.execute("SELECT ItemId, ItemCode, ItemDesc, ItemGroupDesc FROM ACQ_3001_N_1 ORDER BY ItemId")
-        rows = cursor.fetchall()
-        conn.close()
-
-        items = []
-        for row in rows:
-            id = str(row.ItemId).strip() if row.ItemId else ""
-            code = str(row.ItemCode).strip() if row.ItemCode else ""
-            code = str(row.ItemCode).strip() if row.ItemCode else ""
-            name = str(row.ItemDesc).strip() if row.ItemDesc else "بدون نام"
-            group = str(row.ItemGroupDesc).strip() if row.ItemGroupDesc else ""
-            items.append({"id": id,"code": code, "name": name, "group": group})
-
-        from datetime import datetime
-        now = datetime.now().strftime("%Y/%m/%d - %H:%M")
-
-        return render_template_string(HTML_TEMPLATE, items=items, count=len(items), now=now)
-
-    except Exception as e:
-        return f"<h2>خطا در اتصال به دیتابیس:</h2><pre>{str(e)}</pre>", 500
-
+def index_page():
+    # برای تست روی Render
+    return """
+    <h1>وب‌سرور Flask با موفقیت روی Render اجرا شد!</h1>
+    <p>حالا باید دیتابیس رو به روش امن وصل کنیم.</p>
+    <p>زمان فعلی: """ + __import__('datetime').datetime.now().strftime("%Y/%m/%d %H:%M:%S") + """</p>
+    """
 
 
 server = "109.125.144.105\\WIN-F7CPTE3GRIV\\BACKUPSQL2014,1433"
@@ -159,10 +141,12 @@ def backup_excel():
         as_attachment=True,
         download_name="backup.xlsx"
     )
-
 if __name__ == '__main__':
-    print("وب‌سرور در حال اجراست...")
-    print("برای دیدن جدول، این آدرس را در مرورگر باز کن:")
-    print("http://127.0.0.1:5000")
-    print("برای خروج: Ctrl + C")
-    app.run(host='127.0.0.1', port=5000, debug=False)
+    # فقط برای لوکال
+    app.run(host='127.0.0.1', port=5000, debug=True)
+else:
+    # برای Render و هر سرور دیگری
+    if __name__ == "__main__":  # این خط رو حذف یا کامنت کن
+        pass
+    # به جای اون فقط مطمئن شو این خط وجود داشته باشه:
+    # (هیچ app.run لازم نیست، Render خودش gunicorn یا uvicorn اجرا می‌کنه)
