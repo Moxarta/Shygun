@@ -1,5 +1,6 @@
-Flask==2.3.3
-gunicorn==22.0.0
+Flask
+pyodbc
 pandas
 openpyxl
-pyodbc==5.1.0
+gunicorn
+woocommerce
