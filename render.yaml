@@ -1,0 +1,4 @@
+Runtime: Python 3.11 یا 3.12
+Build Command: pip install -r requirements.txt
+Start Command: gunicorn اپ_فایل_اصلی_ت:app
+(مثلاً اگه فایلت اسمش main.py هست → gunicorn main:app)
