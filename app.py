@@ -120,30 +120,30 @@ driver = "{ODBC Driver 17 for SQL Server}"  # مطمئن شوید روی سیس�
 connection_string = f"DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}"
 
 
-@app.route("/backup")
-def backup_excel():
-    conn = pyodbc.connect(
-        'DRIVER={ODBC Driver 17 for SQL Server};'
-        f'SERVER={server};DATABASE={database};UID={username};PWD={password}'
-    )
+# @app.route("/backup")
+# def backup_excel():
+#     conn = pyodbc.connect(
+#         'DRIVER={ODBC Driver 17 for SQL Server};'
+#         f'SERVER={server};DATABASE={database};UID={username};PWD={password}'
+#     )
 
-    query = "SELECT ItemId, ItemCode, ItemDesc, ItemGroupDesc FROM ACQ_3001_N_1"
-    df = pd.read_sql(query, conn)
-    conn.close()
+#     query = "SELECT ItemId, ItemCode, ItemDesc, ItemGroupDesc FROM ACQ_3001_N_1"
+#     df = pd.read_sql(query, conn)
+#     conn.close()
 
-    # ساخت excel در حافظه
-    output = io.BytesIO()
-    with pd.ExcelWriter(output, engine='openpyxl') as writer:
-        df.to_excel(writer, index=False)
+#     # ساخت excel در حافظه
+#     output = io.BytesIO()
+#     with pd.ExcelWriter(output, engine='openpyxl') as writer:
+#         df.to_excel(writer, index=False)
 
-    output.seek(0)
+#     output.seek(0)
 
-    return send_file(
-        output,
-        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        as_attachment=True,
-        download_name="backup.xlsx"
-    )
+#     return send_file(
+#         output,
+#         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+#         as_attachment=True,
+#         download_name="backup.xlsx"
+#     )
 if __name__ == '__main__':
     # فقط برای لوکال
     app.run(host='127.0.0.1', port=5000, debug=True)
@@ -153,4 +153,5 @@ else:
         pass
     # به جای اون فقط مطمئن شو این خط وجود داشته باشه:
     # (هیچ app.run لازم نیست، Render خودش gunicorn یا uvicorn اجرا می‌کنه)
+
 
