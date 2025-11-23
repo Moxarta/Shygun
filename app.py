@@ -1,7 +1,7 @@
 # نمایش محصولات از دیتابیس روی لوکال
 
 from flask import Flask, Response, render_template_string, send_file, request
-import pyodbc
+# import pyodbc
 import pandas as pd
 import io
 import os
@@ -99,13 +99,16 @@ HTML_TEMPLATE = """
 """
 @app.route('/')
 def index_page():
-    # برای تست روی Render
-    return """
-    <h1>وب‌سرور Flask با موفقیت روی Render اجرا شد!</h1>
-    <p>حالا باید دیتابیس رو به روش امن وصل کنیم.</p>
-    <p>زمان فعلی: """ + __import__('datetime').datetime.now().strftime("%Y/%m/%d %H:%M:%S") + """</p>
-    """
-
+    # دیتابیس SQL Server رو کاملاً دور زدیم
+    items = [
+        {"id": "1001", "code": "A001", "name": "کالا تست ۱", "group": "گروه تست"},
+        {"id": "1002", "code": "A002", "name": "کالا تست ۲", "group": "گروه تست"},
+        {"id": "1003", "code": "A003", "name": "کالا تست ۳", "group": "گروه تست"},
+    ]
+    from datetime import datetime
+    now = datetime.now().strftime("%Y/%m/%d - %H:%M")
+    
+    return render_template_string(HTML_TEMPLATE, items=items, count=len(items), now=now)
 
 server = "109.125.144.105\\WIN-F7CPTE3GRIV\\BACKUPSQL2014,1433"
 database = "cy000402"
@@ -150,3 +153,4 @@ else:
         pass
     # به جای اون فقط مطمئن شو این خط وجود داشته باشه:
     # (هیچ app.run لازم نیست، Render خودش gunicorn یا uvicorn اجرا می‌کنه)
+
