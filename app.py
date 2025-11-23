@@ -17,7 +17,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # تنظیمات اتصال به SQL Server لوکال
 conn_str = (
-    "DRIVER={ODBC Driver 17 for SQL Server};"
+    "DRIVER={ODBC Driver 18 for SQL Server};"
     "SERVER=109.125.144.105\\WIN-F7CPTE3GRIV\\BACKUPSQL2014,1433;"          # یا localhost یا COMPUTERNAME\SQLEXPRESS
     "DATABASE=cy000402;"
     "UID=sa;"
